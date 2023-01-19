@@ -5,17 +5,64 @@ This is part of the Forms Project in The Odin Project’s Ruby on Rails Curricul
 You'll get good at setting up apps quickly in the coming lessons by using more or less this same series of steps (though we'll help you less and less each time):
 
 1. Build a new rails app (called "re-former").
+
+```
+rails new re-former
+```
+
 2. Create a new Github repo and connect the remote to your local git repo. Check in and commit the initial stuff.
 3. Modify your README file to say something you'll remember later, like "This is part of the Forms Project in The Odin Project's Ruby on Rails Curriculum.  Find it at [http://www.theodinproject.com](http://www.theodinproject.com)"
 4. Create and migrate a User model with `:username`, `:email` and `:password`.
-5. Add validations for presence to each field in the model.
-6. Create the `:users` resource in your routes file so requests actually have somewhere to go.  Use the `only:` option to specify just the `:new` and `:create` actions.
-7. Build a new UsersController (either manually or via the `$ rails generate controller Users` generator).
-8. Write empty methods for `#new` and `#create` in your UsersController.
-9. Create your `#new` view in `app/views/users/new.html.erb`.
-10. Fire up a rails server in another tab.
-11. Make sure everything works by visiting `http://localhost:3000/users/new` in the browser.
+```
+$ rails g model User username:string email:string password:string
 
+$ rails db:migrate
+```
+5. Add validations for presence to each field in the model.
+```
+#/app/models/user.rb
+class User < ApplicationRecord
+    validates :username, presence: true, uniqueness: true, length: { maximum: 25 }
+    validates :email, presence: true, uniqueness: true
+    validates :password, presence: true, length: { minimum: 6 } 
+end
+```
+6. Create the `:users` resource in your routes file so requests actually have somewhere to go.  Use the `only:` option to specify just the `:new` and `:create` actions.
+```
+#/app/config.routes.rb
+Rails.application.routes.draw do
+  resources :users, only: [:new, :create]
+end
+```
+7. Build a new UsersController (either manually or via the `$ rails generate controller Users` generator).
+```
+rails g controller Users
+```
+8. Write empty methods for `#new` and `#create` in your UsersController.
+```
+class UsersController < ApplicationController
+    def new
+    end
+
+    def create
+    end
+end
+```
+9. Create your `#new` view in `app/views/users/new.html.erb`.
+```
+#/app/views/users/new.html.erb
+<h1>New User</h1>
+
+
+```
+10. Fire up a rails server in another tab.
+```
+$ rails s
+```
+11. Make sure everything works by visiting `http://localhost:3000/users/new` in the browser.
+```
+TODO: Add the image ss here!
+```
 #### HTML Form
 
 The first form you build will be mostly HTML (remember that stuff at all?).  Build it in your New view at `app/views/users/new.html.erb`.  The goal is to build a form that is almost identical to what you'd get by using a Rails helper so you can see how it's done behind the scenes.

@@ -214,8 +214,50 @@ Now we'll start morphing our form into a full Rails form using the `#form_tag` a
 1. Comment out your entire HTML form.  It may be helpful to save it for later on if you get stuck.
 2. Convert your `<form>` tag to use a `#form_tag` helper and all of your inputs into the proper helper tags via `#*_tag` methods.  The good thing is that you no longer need the authentication token because Rails will insert that for you automatically. `#form_tag` is soft-deprecated as stated in the current Rails Guide. You can find the older documentation [here](https://guides.rubyonrails.org/v5.2/form_helpers.html).
 3. See the [Form Tag API Documentation](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag) for a list and usage of all the input methods you can use with `#form_tag`.
+```
+<%= form_tag('/users', method: :post) do %>
+    <%= label_tag :username, 'Username:' %>
+    <%= text_field_tag :username %><br />
+    <%= label_tag :email, 'Email:' %>
+    <%= email_field_tag :email %><br />
+    <%= label_tag :password, 'Password:' %>
+    <%= password_field_tag :password %><br />
+    <%= submit_tag "Create new user" %>
+<% end %>
+<!--
+<form method="POST" action="/users" accept-charset="UTF-8">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+    <label for="username">Username:</label>
+    <input type="text" name="user[username]" id="user[username]" /><br />
+    <label for="email">Email:</label>
+    <input type="email" name="user[email]" id="user[email]" /><br />
+    <label for="password">Password:</label>
+    <input type="password" name="user[password]" id="user[password]" /><br />
+    <input type="submit" value="Create new user">
+</form>
+-->
+```
 4. Test out your form.  You'll need to change your `#create` method in the controller to once again accept normal top level User attributes, so uncomment the old `User.new` line and comment out the newer one.
+```
+class UsersController < ApplicationController
+    ...
+
+    def create
+        @user = User.new(username: params[:username], email: params[:email], password: params[:password])
+        # @user = User.new(user_params)
+
+        ...
+    end
+    
+    ...
+end
+
+```
 5. You've just finished the first step.
+```
+
+```
 
 #### Railsy-er Forms with `#form_with`
 

@@ -269,6 +269,58 @@ end
 4. Play with the `#input` method options -- add a default placeholder (like "example@example.com" for the email field), make it generate a different label than the default one (like "Your user name here"), and try starting with a value already populated.  Some of these things you may need to Google for, but check out the [`#form_with` Rails API docs](https://api.rubyonrails.org/v6.1.1/classes/ActionView/Helpers/FormHelper.html#method-i-form_with)
 5. Test it out.
 
+```
+<%= form_with model: @user, method: :post do |form| %>
+    <%= form.label :username, "Your username here!" %>
+    <%= form.text_field :username, value: "Prepopulated Value", size: 20 %><br />
+    <%= form.label :email %>
+    <%= form.email_field :email, placeholder: "example@example.com" %><br />
+    <%= form.label :password %>
+    <%= form.password_field :password %><br />
+    <%= form.submit %>
+<% end %>
+
+<!--
+# DEFAULT FORM_WITH COMPONENTS
+<%= form_with model: @user, method: :post do |form| %>
+    <%= form.label :username %>
+    <%= form.text_field :username %><br />
+    <%= form.label :email %>
+    <%= form.email_field :email %><br />
+    <%= form.label :password %>
+    <%= form.password_field :password %><br />
+    <%= form.submit %>
+<% end %>
+-->
+
+<!--
+<%= form_tag('/users', method: :post) do %>
+    <%= label_tag 'username', 'Username:' %>
+    <%= text_field_tag 'username' %><br />
+    <%= label_tag 'email', 'Email:' %>
+    <%= email_field_tag 'email' %><br />
+    <%= label_tag 'password', 'Password:' %>
+    <%= password_field_tag 'password' %><br />
+    <%= submit_tag "Create new user" %>
+<% end %>
+-->
+
+<!--
+<form method="POST" action="/users" accept-charset="UTF-8">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+    <label for="username">Username:</label>
+    <input type="text" name="user[username]" id="user[username]" /><br />
+    <label for="email">Email:</label>
+    <input type="email" name="user[email]" id="user[email]" /><br />
+    <label for="password">Password:</label>
+    <input type="password" name="user[password]" id="user[password]" /><br />
+    <input type="submit" value="Create new user">
+</form>
+-->
+
+```
+
 #### Editing
 
 1. Update your routes and controller to handle editing an existing user.  You'll need your controller to find a user based on the submitted `params` ID.

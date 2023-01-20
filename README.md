@@ -272,7 +272,7 @@ end
 ```
 <%= form_with model: @user, method: :post do |form| %>
     <%= form.label :username, "Your username here!" %>
-    <%= form.text_field :username, value: "Prepopulated Value", size: 20 %><br />
+    <%= form.text_field :username, default: "Prepopulated Value", size: 20 %><br />
     <%= form.label :email %>
     <%= form.email_field :email, placeholder: "example@example.com" %><br />
     <%= form.label :password %>
